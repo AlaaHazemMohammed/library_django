@@ -1,0 +1,92 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+
+<div style="direction: rtl;" class="wrapper">
+    <!-- Content Wrapper. Contains page content -->
+    <div   class="content-wrapper p-5">
+      <!-- Content Header (Page header) -->
+
+              <div class="row mb-2">
+                <div class="col-sm-6">
+                  <h1>الكتب</h1>
+                </div>
+ 
+              </div>
+          </section>
+      
+          <!-- Main content -->
+          <section class="content">                  
+            <!-- Default box -->
+            <div class="card card-solid">
+              <div class="card-body pb-0">
+                <div class="row d-flex align-items-stretch">
+                  <!-- بداية الكتاب -->
+                  {%for loop in book %}
+                  <div   class="col-12 col-sm-6 col-md-4   bookhide loop{{loop.category.id}} loop{{loop.status}} " >
+                    <div  id="" class="card bg-light">
+                      <div  class="card-header text-muted border-bottom-0">
+                        {{loop.category}}
+                      </div>
+                      <div class="card-body pt-0">
+                        <div class="row">
+                          <div class="col-7">
+                            <h2 class="lead"><b>{{loop.title}} </b></h2>
+                            <ul class="  fa-ul text-muted">
+                              {% if loop.status == 'availble'%}
+                              <li class="small text-success"><span class="fa-li"></span>الحالة: {{loop.status}}</li>
+                              {% elif loop.status == 'rental' %}
+                              <li class="small text-warning"><span class="fa-li"></span>الحالة: {{loop.status}}</li>                           
+                              {% else %}
+                              <li class="small text-danger"><span class="fa-li"></span>الحالة: {{loop.status}}</li>                           
+                              {% endif %}
+                              {% if loop.price %}
+                              <li class="small"><span class="fa-li"></span>السعر: {{loop.price}}</li>
+                              {%elif loop.retal_price_day%}
+                              <li class="small"><span class="fa-li"></span>السعراليوم: {{loop.retal_price_day}}</li>
+                              {% endif %}
+                            </ul>
+                          </div>
+                          <div class="col-5 text-center">
+                            {% if loop.photo_book %}
+                              <img style="height: 120px; width: 120px;"  src="{{loop.photo_book.url}}" alt="" class="img-circle img-fluid">
+                            {%else%}
+                              <img style="height: 120px; width: 120px;"  src="{%static 'dist/img/photo1.png' %}" alt="" class="img-circle img-fluid">
+                            {%endif%}
+                            </div>
+                        </div>
+                      </div>
+                      <div class="card-footer">
+                        <div class="text-right">
+                          <a href="{% url 'delete' loop.id %}" class="btn btn-sm bg-danger">
+                            <i class="fas fa-trash"></i>
+                          </a>
+                          <a href="{% url 'update' loop.id %}" class="btn btn-sm btn-primary">
+                            <i class="fas fa-book"></i> تعديل
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    
+                  </div>
+                  {%endfor%}
+                   <!-- نهاية الكتاب -->
+                </div>
+              </div>
+              <!-- /.card-body -->
+
+              <!-- /.card-footer -->
+            </div>
+            <!-- /.card -->
+      
+          </section>
+          <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+      
+    </div>
+    <!-- /.content-wrapper -->
+  </div>
+
+
+{% endblock %}
